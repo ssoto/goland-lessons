@@ -7,9 +7,9 @@ build-project:  ## Build the project
 	@echo "Building..."
 	# Create bin directory if it doesn't exist
 	mkdir -p bin
-	go build -o bin/exercises
+	go build -o bin/golang-exercises
 
-run-build:  ## Build and run the project
+run-build: build-project ## Build and run the project
 	@echo "Running..."
 	./bin/exercises
 
