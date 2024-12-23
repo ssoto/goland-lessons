@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"math/big"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -22,22 +23,23 @@ Then, the output should be: 40320
 Hints: In case of input data being supplied to the question, it should be assumed to be a console input.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
-			fmt.Println("Invalid number of arguments, please enter a valid integer.")
+			fmt.Println("Invalid call, please enter a valid integer.")
 			return
 		}
 		var input = args[0]
-		number, err := strconv.Atoi(input)
+		number, err := strconv.ParseInt(input, 10, 64)
 		if err != nil {
 			fmt.Println("Invalid input, please enter a valid integer.")
 			return
 		}
 
-		var factorial int = 1
-		for i := 1; i <= number; i++ {
-			factorial *= i
+		factorial := big.NewInt(1)
+		for i := int64(1); i <= number; i++ {
+			factorial.Mul(factorial, big.NewInt(i))
 		}
 
-		fmt.Println("lesson2 solution: the factorial of", input, "is: ", factorial)
+		fmt.Println("lesson2 solution: the factorial of", input, "is: ")
+		fmt.Println(factorial)
 	},
 }
 
