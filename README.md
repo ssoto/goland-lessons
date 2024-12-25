@@ -39,5 +39,14 @@ The Makefile will generate a binary in the `bin/` directory. You can execute the
 ./bin/golang-exercises lesson1
 ```
 
+## Add a new lesson
+This project uses cobra to manage the commands. To add a new lesson, you need to create a new command in the `cmd` directory. 
+The command should be created using the following command:
+```shell
+cobra-cli add <lesson-name>
+```
+This command will create a new directory in the `cmd` directory with the lesson name. Inside the directory, you will find the `lesson-name.go` file.
+
+
 ## Links
 - The lessons are based on Carstens [101 gonlang exercises](https://github.com/cblte/100-golang-exercises) repository.
