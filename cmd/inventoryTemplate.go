@@ -6,11 +6,14 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"text/template"
 
 	"github.com/spf13/cobra"
 )
+
+var templatePath string
+var material string
+var count uint
 
 // inventoryTemplate represents the lesson3 command
 var inventoryTemplate = &cobra.Command{
@@ -23,23 +26,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 3 {
-			fmt.Println("Invalid call, please enter a valid string and integer: ", args)
-			return
-		}
 
-		templatePath := args[0]
-		// check if the file path exists
+		// check if the path is valid
 		if _, err := os.Stat(templatePath); os.IsNotExist(err) {
-			fmt.Println("Invalid file path, please enter a valid file path.")
-			return
-		}
-
-		material := args[1]
-		// extract second argument and convert to uint
-		count, err := strconv.ParseUint(args[2], 10, 64)
-		if err != nil {
-			fmt.Println("Invalid input, please enter a valid integer.")
+			fmt.Println("Template file does not exist")
 			return
 		}
 
@@ -74,5 +64,10 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// inventoryTemplate.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	inventoryTemplate.Flags().StringVarP(&templatePath, "template", "t", "", "Path to the template file")
+	inventoryTemplate.MarkFlagRequired("template")
+	inventoryTemplate.Flags().StringVarP(&material, "material", "m", "", "Material of the inventory")
+	inventoryTemplate.MarkFlagRequired("material")
+	inventoryTemplate.Flags().UintVarP(&count, "count", "c", 0, "Count of the inventory")
+	inventoryTemplate.MarkFlagRequired("count")
 }
